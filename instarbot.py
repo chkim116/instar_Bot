@@ -132,10 +132,10 @@ def start_instar_bot():
 def go_instar():
     global driver
     if  getattr(sys, 'frozen', False): 
-        chromedriver_path = os.path.join(sys._MEIPASS, "chromedriver.exe")
+        chromedriver_path = os.path.join(sys._MEIPASS, "chromedriver")
         driver = webdriver.Chrome(chromedriver_path)
     else:
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome("./chromedriver")
     driver.get(URL)
     driver.implicitly_wait(10)
     user_login(ID, PW)
@@ -146,7 +146,7 @@ def go_instar():
 
 
 win = Tk() 
-win.geometry('440x440') 
+win.geometry('440x520') 
 win.title('instarBot ver 1.0') 
 
 label_id = Label(win ,text="아이디")
