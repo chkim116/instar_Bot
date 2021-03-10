@@ -63,15 +63,20 @@ def click_like_btn():
     like_list = driver.find_elements_by_xpath('//article//section/span/button')
     likeBtnTxt = driver.find_elements_by_class_name('_8-yf5 ')
     like_pass = False
+
+    global COUNT
+
     for i in range ( len ( likeBtnTxt ) ) :
         if likeBtnTxt[i].get_attribute("fill") == '#ed4956':
             like_pass = True
             print ("Pass like")
+            COUNT -= 1
             break
 
-    try:
-        like_list = driver.find_elements_by_xpath('//article//section/span/button')
-        if like_pass == False :
+    like_list = driver.find_elements_by_xpath('//article//section/span/button')
+    if like_pass == False :
+        try:
+            time.sleep(1)
             like_list[0].click()
             time_random_wait = randint(RANDOM_MIN, RANDOM_MAX)
 
@@ -79,9 +84,12 @@ def click_like_btn():
             print(str(time_random_wait + int(DELAY)) + "초 후 다음 피드로 넘어갑니다.")
 
             time.sleep(time_random_wait + int(DELAY))  # 작업마다 딜레이
-
-    except:
-        print('line 81 error')
+        except:
+            COUNT -= 1
+            print('좋아요 버튼을 못찾았습니다.')
+            hard_work()
+    else:
+        print('pass')
 
 # 열일해라!! 원하는 만큼 좋아요!
 def hard_work():
@@ -96,10 +104,6 @@ def hard_work():
 
         click_like_btn()
         next_feed()
-        
-    # 원하는 개수만큼 하면, 피드 닫기!
-    close = driver.find_element_by_xpath('//body/div[5]/div[3]/button')
-    close.send_keys(Keys.ENTER)
         
 
 # 게시글 누르고 좋아요 작업 시작하기
