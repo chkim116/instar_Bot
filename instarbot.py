@@ -24,6 +24,15 @@ tags = (user_tags.split(','))
 URL = "http://www.instagram.com/"
 EXPLORE = "explore/tags/"
 
+# 크롬 헤드리스 설정
+# 참고 https://beomi.github.io/2017/09/28/HowToMakeWebCrawler-Headless-Chrome/
+options = webdriver.ChromeOptions()
+options.add_argument('headless')
+options.add_argument('window-size=1920x1080')
+options.add_argument("disable-gpu")
+options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+options.add_argument("lang=ko_KR")
+
 COUNT = 0
 LIMIT = 200
 DELAY = 80
@@ -87,6 +96,7 @@ def click_like_btn():
         except:
             COUNT -= 1
             print('좋아요 버튼을 못찾았습니다.')
+            next_feed()
             hard_work()
     else:
         print('pass')
@@ -121,7 +131,9 @@ def start_instar_bot():
     for i in range(len(tags)):
         global COUNT
         if COUNT >= int(LIMIT):
-            print("좋아요 작업 종료!")
+            print("좋아요 작업 종료! 브라우저를 종료합니다.")
+            global driver
+            driver.quit()
             break
         search_tags(tags[i])
         time.sleep(2)
@@ -137,20 +149,23 @@ def go_instar():
     global driver
     if  getattr(sys, 'frozen', False): 
         chromedriver_path = os.path.join(sys._MEIPASS, "chromedriver")
-        driver = webdriver.Chrome(chromedriver_path)
+        driver = webdriver.Chrome(chromedriver_path, options=options)
     else:
-        driver = webdriver.Chrome("./chromedriver")
+        driver = webdriver.Chrome("./chromedriver", options=options)
     driver.get(URL)
-    driver.implicitly_wait(10)
+    driver.execute_script("Object.defineProperty(navigator, 'plugins', {get: function() {return[1, 2, 3, 4, 5]}})")
+    driver.execute_script("Object.defineProperty(navigator, 'languages', {get: function() {return ['ko-KR', 'ko']}})")
+    driver.execute_script("const getParameter = WebGLRenderingContext.getParameter;WebGLRenderingContext.prototype.getParameter = function(parameter) {if (parameter === 37445) {return 'NVIDIA Corporation'} if (parameter === 37446) {return 'NVIDIA GeForce GTX 980 Ti OpenGL Engine';}return getParameter(parameter);};")
+    driver.implicitly_wait(15)
     user_login(ID, PW)
-    close_popup()
-    time.sleep(2)
+    # close_popup()
+    time.sleep(3)
     start_instar_bot()
 
 
 
 win = Tk() 
-win.geometry('440x520') 
+win.geometry('500x600') 
 win.title('instarBot ver 1.0') 
 
 label_id = Label(win ,text="아이디")
@@ -199,9 +214,8 @@ input_tag = Text(win, width=20, height=10, highlightbackground = "black", highli
 input_tag.insert("current", user_tags)
 input_tag.pack()
 
-btn = Button(win)
-btn.config(width=20, height=10)
-btn.config(text = "클릭해서 좋아요 시작")
+btn = Button(win, width=20, height=2, text="클릭해서 좋아요 시작")
+
 
 def ent_p():
     global ID
