@@ -49,6 +49,7 @@ def user_login(ID, PW):
     pw_input.send_keys(PW)
     login_btn = driver.find_element_by_xpath('//*[@id="loginForm"]/div/div[3]/button')
     login_btn.click()
+    print('로그인 완료')
 
 # 로그인시 나타나는 팝업 지우기
 def close_popup():
@@ -157,6 +158,7 @@ def go_instar():
     driver.execute_script("Object.defineProperty(navigator, 'languages', {get: function() {return ['ko-KR', 'ko']}})")
     driver.execute_script("const getParameter = WebGLRenderingContext.getParameter;WebGLRenderingContext.prototype.getParameter = function(parameter) {if (parameter === 37445) {return 'NVIDIA Corporation'} if (parameter === 37446) {return 'NVIDIA GeForce GTX 980 Ti OpenGL Engine';}return getParameter(parameter);};")
     driver.implicitly_wait(15)
+    print('브라우저에 접속했습니다.')
     user_login(ID, PW)
     # close_popup()
     time.sleep(3)
