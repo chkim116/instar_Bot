@@ -1,4 +1,6 @@
-# instar bot ver 1.0
+# instar bot ver 1.1
+
+-   헤드리스를 지원합니다.
 
 ## 사용법
 
@@ -7,6 +9,11 @@ git clone https://github.com/chkim116/instar_Bot.git
 ```
 
 instarbot.py 실행.
+<br />
+
+사용하는 크롬의 브라우저 버전 확인 및 드라이버 다운 필수.
+현재 드라이버는 93버전
+[크롬 드라이버 설치는 이곳에서](https://chromedriver.chromium.org/downloads)
 
 <br />
 
@@ -63,3 +70,9 @@ instarbot.py 실행.
 5. 시행할 태그 목록 설정
     - tag.txt에 있는 텍스트들을 따라감.
     - 수정할 시 tag.txt를 수정하는 걸 추천
+
+## 추후 업뎃 예정 사항
+
+-   팔로우 검열
+-   댓글 기능 or 팔로우 기능
+-   자기 팔로워 좋아요
